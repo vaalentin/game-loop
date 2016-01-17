@@ -24,13 +24,33 @@ export default class GameLoop extends EventDispatcher {
 
   /**
    * @method getTime
-   * @public
+   * @private
    * @returns {float}
    */
   getTime() {
     return performance && performance.now
       ? performance.now()
       : Date.now();
+  }
+
+  /**
+   * @method frame
+   * @private
+   */
+  frame() {
+    const curTime = this.getTime();
+    const dt = Math.min(1000, curTime - this._prevTime);
+    this._prevTime = curTime;
+    this._lagTime += dt;
+
+    while(this._lagTime > this._timeStep) {
+      this._lagTime -= this._timeStep;
+      this.dispatchEvent('update', this._timeStep);
+    }
+
+    this.dispatchEvent('render', dt);
+
+    this._frameId = requestAnimationFrame(this._frame);
   }
 
   /**
@@ -57,26 +77,6 @@ export default class GameLoop extends EventDispatcher {
     this.dispatchEvent('stop');
     cancelRequestAnimationFrame(this._frameId);
     this._frameId = null;
-  }
-
-  /**
-   * @method frame
-   * @private
-   */
-  frame() {
-    const curTime = this.getTime();
-    const dt = Math.min(1000, curTime - this._prevTime);
-    this._prevTime = curTime;
-    this._lagTime += dt;
-
-    while(this._lagTime > this._timeStep) {
-      this._lagTime -= this._timeStep;
-      this.dispatchEvent('update', this._timeStep);
-    }
-
-    this.dispatchEvent('render', dt);
-
-    this._frameId = requestAnimationFrame(this._frame);
   }
 
   /**
