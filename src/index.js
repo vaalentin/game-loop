@@ -75,7 +75,7 @@ export default class GameLoop extends EventDispatcher {
    */
   stop() {
     this.dispatchEvent('stop');
-    cancelRequestAnimationFrame(this._frameId);
+    cancelAnimationFrame(this._frameId);
     this._frameId = null;
   }
 
