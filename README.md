@@ -1,5 +1,7 @@
 # @vaalentin/game-loop
 
+[![Build Status](https://travis-ci.org/vaalentin/game-loop.svg?branch=master)](https://travis-ci.org/vaalentin/game-loop)
+
 Simple game loop.
 
 ## Installation
