@@ -1,4 +1,4 @@
-# @vaalentin/game-loop
+# Game loop
 
 [![Build Status](https://travis-ci.org/vaalentin/game-loop.svg?branch=master)](https://travis-ci.org/vaalentin/game-loop)
 
@@ -17,20 +17,22 @@ import GameLoop from '@vaalentin/game-loop';
 
 const loop = new GameLoop(30);
 
-loop.addEventListener('init', () => {
+loop.on('init', () => {
   // called once
 });
 
-loop.addEventListener('update', dt => {
+loop.on('update', dt => {
   // called 30 times per second
 });
 
-loop.addEventListener('render', dt => {
-  // called as fast as possible.
+loop.on('render', dt => {
+  // called as fast as possible, usually 60 times a sec
 });
 ```
 
 ## API
+
+GameLoop inherits from [EventDispatcher](https://github.com/vaalentin/event-dispatcher#api).
 
 #### `loop = new GameLoop(fps, speed)`
 
@@ -46,30 +48,17 @@ Start loop.
 
 Stop loop.
 
-#### `loop.addEventListener('init', fn)`
-
-Called once, when the loop starts for the first time.
-
-#### `loop.addEventListener('start', fn)`
-
-Called every time the loop starts.
-The first start will thus calls `init` and `start`.
-
-#### `loop.addEventListener('stop', fn)`
-
-Called every time the loop stops.
-
-#### `loop.addEventListener('update', fn)`
-
-Called at a constant interval, given by the `fps` parameter.
-
-#### `loop.addEventListener('render', fn)`
-
-Called as fast as `requestAnimationFrame` can go (usually `60` times per second).
-
 #### `loop.dispose()`
 
 Delete instance. Calls `loop.stop()`.
+
+### Events
+
+- `init` Called once, when the loop starts for the first time.
+- `start` Called every time the loop starts.
+- `stop` Called every time the loop stops.
+- `update` Called at a constant interval, given by the `fps` parameter.
+- `render` Called as fast as `requestAnimationFrame` can go.
 
 ## License
 
