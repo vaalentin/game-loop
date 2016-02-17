@@ -12,8 +12,6 @@ export default class GameLoop extends EventDispatcher {
   constructor(fps = 60, speed = 1) {
     super();
 
-    this._isFirstStart = true;
-
     this._timeStep = (1000 / fps) * speed;
     this._prevTime = null;
     this._lagTime = 0;
@@ -58,9 +56,8 @@ export default class GameLoop extends EventDispatcher {
    * @public
    */
   start() {
-    if(this._isFirstStart) {
+    if(this._prevTime === null) {
       this.dispatchEvent('init');
-      this._isFirstStart = false;
     }
 
     this.dispatchEvent('start');
